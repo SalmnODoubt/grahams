@@ -13,9 +13,59 @@
 
 using namespace std;
 
+const int iMAXARRLEN = 10;
+
+//typedef array<unsigned long long, iMAXARRLEN> infint;
+//typedef struct {
+//    unsigned long long num[iMAXARRLEN];
+//    bool toolarge;
+//} infint;
+
+class InfInt{
+    //range of unsigned long long:
+    //0 to 18,446,744,073,709,551,615
+    public: static unsigned long long s_multiplier;
+    public: unsigned long long m_num[iMAXARRLEN] = {0};
+    public: bool m_toolarge = false;
+    
+    public: InfInt(){
+        s_multiplier = 10000000000000000000ull;
+        //cout << "create";
+    }
+    
+    public: ~InfInt(){
+        //cout << "destroy";
+    }
+    
+    public: void setULL(unsigned long long p_num){
+        m_num[0] = p_num;
+    }
+    
+    public: string toString(void){
+        
+        return "";
+    }
+    
+};
+
+int grahams(void);
 unsigned long long calKnuthUpArrow(string p_str_term);
+InfInt infAdd(InfInt Num1, InfInt Num2);
+InfInt &infMul(InfInt &Factor1, InfInt &Factor2);
+InfInt &infPow(InfInt &Basis, InfInt &Exp);
+
+//array< int, 5 > &fillarr( array< int, 5 > &arr );
 
 int main(int argc, const char * argv[]) {
+    
+    //grahams();
+    
+    cout << infAdd(*new InfInt, *new InfInt).toString();
+    
+    return 0;
+}
+
+int grahams(void){
     string str_input = "";
     
     // insert code here...
@@ -38,7 +88,7 @@ int main(int argc, const char * argv[]) {
         << "\n\n"
         << "--------------------------------------------------------------"
         << "\n";
-
+    
     return 0;
 }
 
@@ -87,3 +137,34 @@ unsigned long long calKnuthUpArrow(string p_str_term){
     
     return d_result;
 }
+
+InfInt infAdd(
+    InfInt Num1,
+    InfInt Num2
+){
+    InfInt iiSum;
+    
+    
+    
+    return iiSum;
+}
+
+InfInt infMul(
+    InfInt Factor1,
+    InfInt Factor2
+){
+    InfInt iiSum;
+    return iiSum;
+}
+
+InfInt infPow(
+    InfInt Basis,
+    InfInt Expf
+){
+    InfInt iiSum;
+    return iiSum;
+}
+
+/*array< int, 5 > &fillarr( array< int, 5 > &arr ) {
+    return arr; // "array" being boost::array or std::array
+}*/
