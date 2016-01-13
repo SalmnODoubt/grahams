@@ -13,7 +13,7 @@
 
 using namespace std;
 
-double calKnuthUpArrow(string p_str_term);
+unsigned long long calKnuthUpArrow(string p_str_term);
 
 int main(int argc, const char * argv[]) {
     string str_input = "";
@@ -36,18 +36,18 @@ int main(int argc, const char * argv[]) {
         << "\n\nThank you! The Result to that would be:\n"
         << calKnuthUpArrow(str_input)
         << "\n\n"
-        << "--------------------------------------------------------------------------------"
+        << "--------------------------------------------------------------"
         << "\n";
 
     return 0;
 }
 
-double calKnuthUpArrow(string p_str_term){
-    double d_result = 0;
+unsigned long long calKnuthUpArrow(string p_str_term){
+    unsigned long long d_result = 0;
     int i_arrow_count = 0; //arrow_count
     int i_basis = 0;
     int i_exponent = 0;
-    string str_seg_regex = "(\\d*)\\s{0,}k{1,}\\s{0,}(\\d*)";
+    string str_seg_regex = "^\\s{0,}(\\d*)\\s{0,}k{1,}\\s{0,}(\\d*)\\s{0,}$";
     string str_tet_regex = "k{1,}";
     string::size_type sz;
     smatch sm;
@@ -55,26 +55,35 @@ double calKnuthUpArrow(string p_str_term){
     //cout << "errrrrr " << str_seg_regex << "    " << regex_search(p_str_term, sm, r) << " T " << p_str_term << " T " << endl;
 
     const regex r_seg(str_seg_regex);
-    if(regex_search(p_str_term, sm, r_seg) && sm.size() == 2){
+    if(regex_search(p_str_term, sm, r_seg) && sm.size() == 3){
         //have to test if sm[0|1] is a number
-        i_basis = stoi(sm[0], &sz);
-        i_exponent = stoi(sm[1], &sz);
+        i_basis = stoi(sm[1], &sz);
+        i_exponent = stoi(sm[2], &sz);
     }
     
-    cout << " 1." << sm[0] << " 2." << sm[1] << " ";
+    //cout << " 1." << sm[0] << " 2." << sm[1] << " 3." << sm[2] << " size:" << sm.size();
     
     const regex r_tet(str_tet_regex);
     if (regex_search(p_str_term, sm, r_tet))
         i_arrow_count = (int)sm.length();
     
-    if(i_arrow_count == 1)
+    //cout << " HHH" << sm.length() << "ZZZ ";
+    
+    d_result = i_basis;
+    
+    if(i_basis > 2 && i_arrow_count > 1 && i_exponent == 2){
+        i_exponent++;
+        i_arrow_count--;
+    }
+    
+    if(i_arrow_count == 1 || i_exponent <= 2)
         d_result = pow(i_basis, i_exponent);
     else
-        while(i_arrow_count)
-            for(int i = 0; i < i_exponent; i++)
+        for(int i = 1; i < i_arrow_count; i++)
+            for(int ii = 1; ii < i_exponent; ii++)
                 d_result = pow(i_basis, d_result);
     
-    cout << " " << d_result << " " << i_basis << " " << i_exponent << " " << i_arrow_count << " ";
+    //cout << " " << d_result << " " << i_basis << " " << i_exponent << " " << i_arrow_count << " ";
     
     return d_result;
 }
