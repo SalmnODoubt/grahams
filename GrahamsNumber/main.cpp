@@ -21,13 +21,14 @@ class InfInt{
     public:
         //range of unsigned long long:
         //0 to 18,446,744,073,709,551,615
-        //static unsigned long long s_ull_max;
-        static int s_ull_max_log10;
+        static unsigned long long s_ull_max;
+        static int s_ull_max_digit;
         unsigned long long m_num[iMAXARRLEN] = {0};
         bool m_toolarge = false;
     
         InfInt(){
-            s_ull_max_log10 = (int)log10((double)numeric_limits<unsigned long long>::max());
+            s_ull_max = numeric_limits<unsigned long long>::max();
+            s_ull_max_digit = (int)log10((double)s_ull_max) + 1;
 
             //cout << "create";
         }
@@ -53,7 +54,7 @@ class InfInt{
             
             va_start(num_fragments, p_count);
             
-            i_index_placement = (p_count > iMAXARRLEN ? iMAXARRLEN : iMAXARRLEN - p_count)-1;
+            i_index_placement = (p_count > iMAXARRLEN ? iMAXARRLEN : p_count) -1;
             
             for(int i = i_index_placement; i >= 0; i--)
                 m_num[i] = va_arg(num_fragments, unsigned long long);
@@ -68,30 +69,40 @@ class InfInt{
             m_num[0] = p_num;
         }
     
-        public: string toString(void){
-            stringstream r_ss_number;
+        string toString(void){
+            stringstream r_number;
             bool num_start = false;
             
             int i_arr_len = iMAXARRLEN;
             
             while(--i_arr_len >= 0)
                 if(num_start && m_num[i_arr_len])
-                    r_ss_number << m_num[i_arr_len];
+                    r_number << fillZero(m_num[i_arr_len]) << m_num[i_arr_len];
                 else if(num_start && !m_num[i_arr_len])
-                    for(int i = 0; i < s_ull_max_log10; i++)
-                        r_ss_number << '0';
+                    r_number << fillZero(0);
                 else if(!num_start && m_num[i_arr_len] && i_arr_len++ )
                     num_start = true;
             
             if(!num_start)
-                r_ss_number << '0';
+                r_number << '0';
             
-            return r_ss_number.str();
+            return r_number.str();
+        }
+    
+    private:
+        string fillZero(unsigned long long p_num){
+            stringstream r_zeros;
+            int zero_len = s_ull_max_digit - (p_num ? (int)log10((double)p_num) +1 : 0);
+            
+            while(zero_len--)
+                r_zeros << '0';
+            
+            return r_zeros.str();
         }
     
 };
-//unsigned long long InfInt::s_ull_max = 0ull;
-int InfInt::s_ull_max_log10 = 0ull;
+unsigned long long InfInt::s_ull_max = 0ull;
+int InfInt::s_ull_max_digit = 0ull;
 
 int grahams(void);
 unsigned long long calKnuthUpArrow(string p_str_term);
@@ -105,7 +116,7 @@ int main(int argc, const char * argv[]) {
     
     //grahams();
     
-    InfInt test_num = *new InfInt(5, 123456789ull, 23456789ull, 3456789ull, 0, 456789ull);
+    InfInt test_num = *new InfInt(6, 123456789ull, 23456789ull, 3456789ull, 0, 456789ull, 0);
     
     cout << "test1 " << test_num.toString() << endl;
     cout << "test2 " << infAdd(*new InfInt(1234567890ull), *new InfInt(9876543210ull)).toString() << endl;
