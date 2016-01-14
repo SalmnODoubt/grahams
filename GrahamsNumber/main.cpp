@@ -49,13 +49,13 @@ class InfInt{
             InfInt();
             
             va_list num_fragments;
+            int i_index_placement = 0;
             
             va_start(num_fragments, p_count);
             
-            if(p_count > iMAXARRLEN)
-                p_count = iMAXARRLEN;
+            i_index_placement = (p_count > iMAXARRLEN ? iMAXARRLEN : iMAXARRLEN - p_count)-1;
             
-            for(int i = 0; i < p_count; i++)
+            for(int i = i_index_placement; i >= 0; i--)
                 m_num[i] = va_arg(num_fragments, unsigned long long);
         }
     
@@ -70,20 +70,20 @@ class InfInt{
     
         public: string toString(void){
             stringstream r_ss_number;
-            bool b_num_start = false;
+            bool num_start = false;
             
             int i_arr_len = iMAXARRLEN;
             
             while(--i_arr_len >= 0)
-                if(b_num_start && m_num[i_arr_len])
+                if(num_start && m_num[i_arr_len])
                     r_ss_number << m_num[i_arr_len];
-                else if(b_num_start && !m_num[i_arr_len])
+                else if(num_start && !m_num[i_arr_len])
                     for(int i = 0; i < s_ull_max_log10; i++)
                         r_ss_number << '0';
-                else if(!b_num_start && m_num[i_arr_len] && i_arr_len++ )
-                    b_num_start = true;
+                else if(!num_start && m_num[i_arr_len] && i_arr_len++ )
+                    num_start = true;
             
-            if(!b_num_start)
+            if(!num_start)
                 r_ss_number << '0';
             
             return r_ss_number.str();
