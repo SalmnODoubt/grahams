@@ -27,8 +27,6 @@ class InfInt{
         InfInt(){
             s_ull_max_log10 = (int)log10((double)numeric_limits<unsigned long long>::max());
 
-            cout << s_ull_max_log10;
-        
             //cout << "create";
         }
     
@@ -41,8 +39,15 @@ class InfInt{
         }
     
         public: string toString(void){
+            string r_str_number = "";
             
-            return "";
+            {
+            int i_arr_len = iMAXARRLEN;
+            while(--i_arr_len > 0)
+                r_str_number += m_num[i_arr_len];
+            }
+            
+            return r_str_number;
         }
     
 };
@@ -51,9 +56,9 @@ int InfInt::s_ull_max_log10 = 0ull;
 
 int grahams(void);
 unsigned long long calKnuthUpArrow(string p_str_term);
-InfInt infAdd(InfInt Num1, InfInt Num2);
-InfInt &infMul(InfInt &Factor1, InfInt &Factor2);
-InfInt &infPow(InfInt &Basis, InfInt &Exp);
+InfInt infAdd(InfInt p_num1, InfInt p_num2);
+InfInt infMul(InfInt p_factor1, InfInt p_factor2);
+InfInt infPow(InfInt p_basis, InfInt p_exp);
 
 //array< int, 5 > &fillarr( array< int, 5 > &arr );
 
@@ -61,7 +66,7 @@ int main(int argc, const char * argv[]) {
     
     //grahams();
     
-    cout << infAdd(*new InfInt, *new InfInt).toString();
+    cout << infAdd(*new InfInt, *new InfInt).toString() << endl;
     
     return 0;
 }
@@ -138,31 +143,19 @@ unsigned long long calKnuthUpArrow(string p_str_term){
     return d_result;
 }
 
-InfInt infAdd(
-    InfInt Num1,
-    InfInt Num2
-){
-    InfInt iiSum;
-    
-    
-    
-    return iiSum;
+InfInt infAdd(InfInt p_num1, InfInt p_num2){
+    InfInt r_sum;
+    return r_sum;
 }
 
-InfInt infMul(
-    InfInt Factor1,
-    InfInt Factor2
-){
-    InfInt iiSum;
-    return iiSum;
+InfInt infMul(InfInt p_factor1, InfInt p_factor2){
+    InfInt r_prod;
+    return r_prod;
 }
 
-InfInt infPow(
-    InfInt Basis,
-    InfInt Expf
-){
-    InfInt iiSum;
-    return iiSum;
+InfInt infPow(InfInt p_basis, InfInt p_exp){
+    InfInt r_prod;
+    return r_prod;
 }
 
 /*array< int, 5 > &fillarr( array< int, 5 > &arr ) {
