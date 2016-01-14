@@ -7,9 +7,11 @@
 //
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <cmath>
 #include <regex>
+#include <stdarg.h>
 
 using namespace std;
 
@@ -30,6 +32,34 @@ class InfInt{
             //cout << "create";
         }
     
+        InfInt(unsigned long long p_num){
+            InfInt();
+            
+            m_num[0] = p_num;
+        }
+    
+        InfInt(InfInt &p_num){
+            InfInt();
+        
+            for(int i = 0; i < iMAXARRLEN; i++)
+                m_num[i] = p_num.m_num[i];
+        }
+
+        InfInt(int p_count, ...){
+            InfInt();
+            
+            va_list num_fragments;
+            
+            va_start(num_fragments, p_count);
+            
+            if(p_count > iMAXARRLEN)
+                p_count = iMAXARRLEN;
+            
+            for(int i = 0; i < p_count; i++)
+                m_num[i] = va_arg(num_fragments, unsigned long long);
+        }
+    
+    
         ~InfInt(){
             //cout << "destroy";
         }
@@ -39,15 +69,24 @@ class InfInt{
         }
     
         public: string toString(void){
-            string r_str_number = "";
+            stringstream r_ss_number;
+            bool b_num_start = false;
             
-            {
             int i_arr_len = iMAXARRLEN;
-            while(--i_arr_len > 0)
-                r_str_number += m_num[i_arr_len];
-            }
             
-            return r_str_number;
+            while(--i_arr_len >= 0)
+                if(b_num_start && m_num[i_arr_len])
+                    r_ss_number << m_num[i_arr_len];
+                else if(b_num_start && !m_num[i_arr_len])
+                    for(int i = 0; i < s_ull_max_log10; i++)
+                        r_ss_number << '0';
+                else if(!b_num_start && m_num[i_arr_len] && i_arr_len++ )
+                    b_num_start = true;
+            
+            if(!b_num_start)
+                r_ss_number << '0';
+            
+            return r_ss_number.str();
         }
     
 };
@@ -66,7 +105,10 @@ int main(int argc, const char * argv[]) {
     
     //grahams();
     
-    cout << infAdd(*new InfInt, *new InfInt).toString() << endl;
+    InfInt test_num = *new InfInt(5, 123456789ull, 23456789ull, 3456789ull, 0, 456789ull);
+    
+    cout << "test1 " << test_num.toString() << endl;
+    cout << "test2 " << infAdd(*new InfInt(1234567890ull), *new InfInt(9876543210ull)).toString() << endl;
     
     return 0;
 }
