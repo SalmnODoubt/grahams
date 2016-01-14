@@ -15,38 +15,39 @@ using namespace std;
 
 const int iMAXARRLEN = 10;
 
-//typedef array<unsigned long long, iMAXARRLEN> infint;
-//typedef struct {
-//    unsigned long long num[iMAXARRLEN];
-//    bool toolarge;
-//} infint;
-
 class InfInt{
-    //range of unsigned long long:
-    //0 to 18,446,744,073,709,551,615
-    public: static unsigned long long s_multiplier;
-    public: unsigned long long m_num[iMAXARRLEN] = {0};
-    public: bool m_toolarge = false;
+    public:
+        //range of unsigned long long:
+        //0 to 18,446,744,073,709,551,615
+        //static unsigned long long s_ull_max;
+        static int s_ull_max_log10;
+        unsigned long long m_num[iMAXARRLEN] = {0};
+        bool m_toolarge = false;
     
-    public: InfInt(){
-        s_multiplier = 10000000000000000000ull;
-        //cout << "create";
-    }
-    
-    public: ~InfInt(){
-        //cout << "destroy";
-    }
-    
-    public: void setULL(unsigned long long p_num){
-        m_num[0] = p_num;
-    }
-    
-    public: string toString(void){
+        InfInt(){
+            s_ull_max_log10 = (int)log10((double)numeric_limits<unsigned long long>::max());
+
+            cout << s_ull_max_log10;
         
-        return "";
-    }
+            //cout << "create";
+        }
+    
+        ~InfInt(){
+            //cout << "destroy";
+        }
+    
+        void setULL(unsigned long long p_num){
+            m_num[0] = p_num;
+        }
+    
+        public: string toString(void){
+            
+            return "";
+        }
     
 };
+//unsigned long long InfInt::s_ull_max = 0ull;
+int InfInt::s_ull_max_log10 = 0ull;
 
 int grahams(void);
 unsigned long long calKnuthUpArrow(string p_str_term);
@@ -68,7 +69,6 @@ int main(int argc, const char * argv[]) {
 int grahams(void){
     string str_input = "";
     
-    // insert code here...
     cout
         << "Hello, this little program will be able to calculate tetration,\n"
         << "the G Numbers and finally Graham's number.\n"
