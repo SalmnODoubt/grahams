@@ -86,7 +86,10 @@ class InfInt{
             if(!num_start)
                 r_number << '0';
             
-            return r_number.str();
+            
+            regex leading_cero_regex ("(^0{1,})([1-9]{1,})");
+
+            return regex_replace(r_number.str(), leading_cero_regex, "$2");
         }
     
     private:
@@ -162,7 +165,7 @@ unsigned long long calKnuthUpArrow(string p_str_term){
     
     //cout << "errrrrr " << str_seg_regex << "    " << regex_search(p_str_term, sm, r) << " T " << p_str_term << " T " << endl;
 
-    const regex r_seg(str_seg_regex);
+    regex r_seg(str_seg_regex);
     if(regex_search(p_str_term, sm, r_seg) && sm.size() == 3){
         //have to test if sm[0|1] is a number
         i_basis = stoi(sm[1], &sz);
@@ -171,7 +174,7 @@ unsigned long long calKnuthUpArrow(string p_str_term){
     
     //cout << " 1." << sm[0] << " 2." << sm[1] << " 3." << sm[2] << " size:" << sm.size();
     
-    const regex r_tet(str_tet_regex);
+    regex r_tet(str_tet_regex);
     if (regex_search(p_str_term, sm, r_tet))
         i_arrow_count = (int)sm.length();
     
