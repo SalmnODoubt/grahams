@@ -9,5 +9,5 @@ Further Information to
    https://en.wikipedia.org/wiki/Knuth%27s_up-arrow_notation<br />
    http://www.daviddarling.info/encyclopedia/K/Knuths_up-arrow_notation.html
    
- - Graham's Number:
+ - Graham's Number:<br />
    https://en.wikipedia.org/wiki/Graham%27s_number
