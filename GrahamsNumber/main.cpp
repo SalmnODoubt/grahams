@@ -27,6 +27,7 @@ class InfInt{
         bool m_toolarge = false;
     
         InfInt(){
+            //@todo for nicer displaying w could also use 3 here, see function toString()
             s_ull_max = numeric_limits<unsigned long long>::max();
             s_ull_max_digit = (int)log10((double)s_ull_max) + 1;
 
@@ -56,6 +57,12 @@ class InfInt{
             
             i_index_placement = (p_count > iMAXARRLEN ? iMAXARRLEN : p_count) -1;
             
+            /*
+             reversing the order of array resp. number elements
+             so that the function can be called like InfInt(3, 123, 456, 789)
+             but the part having the highest value (in this case 123)
+             can be accessed with the highest array index (easier usage later)
+             */
             for(int i = i_index_placement; i >= 0; i--)
                 m_num[i] = va_arg(num_fragments, unsigned long long);
         }
@@ -75,20 +82,30 @@ class InfInt{
             
             int i_arr_len = iMAXARRLEN;
             
+            /*
+             printing array element with highest index first, because it has the highest value
+             */
             while(--i_arr_len >= 0)
+                //if number has already started and array element is >0, get leading zero + number
                 if(num_start && m_num[i_arr_len])
                     r_number << fillZero(m_num[i_arr_len]) << m_num[i_arr_len];
+                //if number has already started but this array element is 0 just get zeros
                 else if(num_start && !m_num[i_arr_len])
                     r_number << fillZero(0);
+                //if number_start flag has not been set yet, but the current array element is >0
+                //get 1 array element back to repeat the loop with the num_start flag set
                 else if(!num_start && m_num[i_arr_len] && i_arr_len++ )
                     num_start = true;
             
             if(!num_start)
                 r_number << '0';
             
-            
+            /*
+             remove leading zero in front of the numberstring
+             of course all the stuff with the num_start flag would be unneccesary,
+             you could also let the regex do all the work
+             */
             regex leading_cero_regex ("(^0{1,})([1-9]{1,})");
-
             return regex_replace(r_number.str(), leading_cero_regex, "$2");
         }
     
@@ -165,6 +182,9 @@ unsigned long long calKnuthUpArrow(string p_str_term){
     
     //cout << "errrrrr " << str_seg_regex << "    " << regex_search(p_str_term, sm, r) << " T " << p_str_term << " T " << endl;
 
+    /*
+     Magic from here on :P
+     */
     regex r_seg(str_seg_regex);
     if(regex_search(p_str_term, sm, r_seg) && sm.size() == 3){
         //have to test if sm[0|1] is a number
@@ -213,7 +233,3 @@ InfInt infPow(InfInt p_basis, InfInt p_exp){
     InfInt r_prod;
     return r_prod;
 }
-
-/*array< int, 5 > &fillarr( array< int, 5 > &arr ) {
-    return arr; // "array" being boost::array or std::array
-}*/
