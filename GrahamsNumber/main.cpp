@@ -23,6 +23,7 @@ class InfInt{
         //0 to 18,446,744,073,709,551,615
         static unsigned long long s_ull_max;
         static int s_ull_max_digit;
+        static int s_i_arr_max;
         unsigned long long m_num[iMAXARRLEN] = {0};
         bool m_toolarge = false;
     
@@ -120,9 +121,18 @@ class InfInt{
             return r_zeros.str();
         }
     
+        double get_ull_max_p(unsigned long long p_num){
+            double r_max_p = 0.0;
+
+            //persentage of maxvalue from ull
+            
+            return r_max_p;
+        }
+    
 };
 unsigned long long InfInt::s_ull_max = 0ull;
 int InfInt::s_ull_max_digit = 0ull;
+int s_i_arr_max = iMAXARRLEN;
 
 int grahams(void);
 unsigned long long calKnuthUpArrow(string p_str_term);
@@ -222,6 +232,18 @@ unsigned long long calKnuthUpArrow(string p_str_term){
 //@todo
 InfInt infAdd(InfInt p_num1, InfInt p_num2){
     InfInt r_sum;
+    bool carry = false;
+    
+    for(int i = 0; i < InfInt::s_i_arr_max; i++){
+        int single_num1 = p_num1.m_num[i];
+        int single_num2 = p_num2.m_num[i];
+        int single_res = 0;
+        double num_range_p = 0.0;
+        
+        //while(single_num1 > 0 && )
+        
+    }
+    
     return r_sum;
 }
 
